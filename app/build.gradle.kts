@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.handwritingmvp"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.handwritingmvp"
@@ -56,4 +56,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // LiveData
+    implementation(libs.androidx.runtime.livedata)
+
+    // Coil
+    implementation(libs.coil.compose)
 }
