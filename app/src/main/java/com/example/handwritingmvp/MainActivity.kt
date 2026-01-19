@@ -1,7 +1,6 @@
 package com.example.handwritingmvp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,13 +28,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
         enableEdgeToEdge()
         setContent {
             HandwritingMVPTheme {
-                MainScreenLayout(onShowDeleteDialog = {
-                    // 아예 이 이벤트를 진행하지 않음
-                    // 클릭 이벤트는 실행됨
-                    Log.i("MainView", "현재 상태: $showDeleteDialog")
-                    presenter.onDeleteClicked()
-                    Log.e("MainView", "현재 상태: $showDeleteDialog")
-                }) {
+                MainScreenLayout(onShowDeleteDialog = { presenter.onDeleteClicked() }) {
                     if (showDeleteDialog) {
                         DeleteImageAndDrawingDialog(
                             // 이미지와 필기 모두 삭제
@@ -53,9 +46,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
 
     // 삭제 여부를 확인하는 대화상자 표시
     override fun showDeleteDialog() {
-        Log.e("MainView", "현재 상태: $showDeleteDialog")
         showDeleteDialog = true
-        Log.i("MainView", "대화상자 표시 요청 수리, 현재 상태: $showDeleteDialog")
     }
 
     // 삭제 여부를 확인하는 대화상자 닫기

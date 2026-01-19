@@ -20,7 +20,7 @@ fun ScaffoldTopAppBar(onDeleteClicked: () -> Unit) {
             // 저장 기능(캡처??)
             TopBarIconButtons(Icons.Rounded.Check) { }
             // 삭제 기능(필기, 필기와 이미지)
-            TopBarIconButtons(Icons.Rounded.Delete) { onDeleteClicked }
+            TopBarIconButtons(Icons.Rounded.Delete) { onDeleteClicked() }
         }
     )
 }
