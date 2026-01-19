@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
         enableEdgeToEdge()
         setContent {
             HandwritingMVPTheme {
-                MainScreenLayout(onShowDeleteDialog = { presenter.onDeleteClicked() }) {
+                MainScreenLayout(onDeleteClicked = { presenter.onDeleteClicked() }) {
                     if (showDeleteDialog) {
                         DeleteImageAndDrawingDialog(
                             // 이미지와 필기 모두 삭제
