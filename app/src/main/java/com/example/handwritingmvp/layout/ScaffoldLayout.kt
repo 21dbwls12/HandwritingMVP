@@ -1,5 +1,6 @@
-package com.example.handwritingmvp.view
+package com.example.handwritingmvp.layout
 
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -21,11 +23,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 
 @Composable
-fun ScaffoldView(content: @Composable (PaddingValues) -> Unit) {
+fun ScaffoldLayout(content: @Composable (PaddingValues) -> Unit) {
+    // 사진선택도구 단일 사진
+//    val pickMedia =
+//        rememberLancherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+//            uri.let {
+//                uri = uri
+//            }
+//        }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         // 저장, 휴지통 기능이 적용된 버튼을 포함한 상단바
-        topBar = {ScaffoldTopAppBar()},
+        topBar = { ScaffoldTopAppBar() },
         // 이미지 불러오기
         floatingActionButton = {
             FloatingActionButton(
@@ -55,6 +65,7 @@ private fun ScaffoldTopAppBar() {
     )
 }
 
+// 상단에 표시되는 아이콘 버튼 양식
 @Composable
 private fun TopBarIconButtons(icon: ImageVector, onClick: () -> Unit) {
     IconButton(
@@ -68,7 +79,7 @@ private fun TopBarIconButtons(icon: ImageVector, onClick: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DialogForDeleteImage() {
-    androidx.compose.material3.AlertDialog(
+    AlertDialog(
         onDismissRequest = {},
         confirmButton = {
             // 이미지와 필기 모두 삭제
@@ -81,6 +92,7 @@ private fun DialogForDeleteImage() {
     )
 }
 
+// 휴지통 버튼을 누르면 표시되는 대화상자 내부 텍스트 버튼 양식
 @Composable
 private fun DialogButton(dialog: String, onClick: () -> Unit) {
     TextButton(onClick = onClick) { Text((dialog)) }
