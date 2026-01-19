@@ -24,7 +24,7 @@ fun DeleteImageAndDrawingDialog(
             // 이미지와 필기 모두 삭제
             DialogButton("예") { onConfirmWithImage }
             // 필기만 삭제
-            DialogButton("아니오") { onConfirmWithImage }
+            DialogButton("아니오") { onConfirmWithoutImage }
         },
         icon = { Icon(imageVector = Icons.Rounded.Info, contentDescription = null) },
         text = { Text("이미지도 같이 삭제하시겠습니까?") }

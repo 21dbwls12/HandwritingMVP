@@ -1,10 +1,12 @@
 package com.example.handwritingmvp.presenter
 
+import android.util.Log
 import com.example.handwritingmvp.MainContract
 
 class MainPresenter(private var view: MainContract.View) : MainContract.Presenter {
     // 대화상자 표시 요청
     override fun onDeleteClicked() {
+        Log.e("MainPresenter", "대화상자 표시 요청 받음")
         view.showDeleteDialog()
     }
 
@@ -19,9 +21,8 @@ class MainPresenter(private var view: MainContract.View) : MainContract.Presente
         view.hideDeleteDialog()
     }
 
-    // 대화상자 닫기를 요청
+    // 대화상자 닫기 요청
     override fun closeDeleteDialog() {
-        // 대화상자 닫기
         view.hideDeleteDialog()
     }
 }
