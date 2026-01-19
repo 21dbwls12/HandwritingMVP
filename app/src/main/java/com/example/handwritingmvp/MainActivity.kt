@@ -4,44 +4,53 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.example.handwritingmvp.presenter.MainPresenter
 import com.example.handwritingmvp.ui.theme.HandwritingMVPTheme
+import com.example.handwritingmvp.view.DeleteImageAndDrawingDialog
+import com.example.handwritingmvp.view.MainScreenLayout
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), MainContract.View {
+    // View에서 하나의 MainPresenter를 사용해 기능 구현
+    private lateinit var presenter: MainContract.Presenter
+
+    // 삭제 대화상자가 화면에 표시되어 있는지에 대한 변수
+    private var showDeleteDialog by mutableStateOf(false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 현재 Presenter를 Presenter 함수를 구현한 클래스로 초기화
+        presenter = MainPresenter(this)
+
         enableEdgeToEdge()
         setContent {
             HandwritingMVPTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                MainScreenLayout(onShowDeleteDialog = { presenter.onDeleteClicked() }) {
+                    if (showDeleteDialog) {
+                        DeleteImageAndDrawingDialog(
+                            // 이미지와 필기 모두 삭제
+                            onConfirmWithImage = { presenter.onConfirmDelete(true) },
+                            // 이미지만 삭제
+                            onConfirmWithoutImage = { presenter.onConfirmDelete(false) },
+                            // 취소 요청을 취소했을 때, Presenter에 상태 전달(대화상자 닫기)
+                            onDismiss = { presenter.closeDeleteDialog() }
+                        )
+                    }
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    // 삭제 여부를 확인하는 대화상자 표시
+    override fun showDeleteDialog() {
+        showDeleteDialog = true
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HandwritingMVPTheme {
-        Greeting("Android")
+    // 삭제 여부를 확인하는 대화상자 닫기
+    override fun hideDeleteDialog() {
+        showDeleteDialog = false
     }
 }

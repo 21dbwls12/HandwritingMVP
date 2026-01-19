@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MainScreenLayout(content: @Composable (PaddingValues) -> Unit) {
+fun MainScreenLayout(onShowDeleteDialog: () -> Unit, content: @Composable (PaddingValues) -> Unit) {
     // 사진선택도구 단일 사진
 //    val pickMedia =
 //        rememberLancherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -23,7 +23,7 @@ fun MainScreenLayout(content: @Composable (PaddingValues) -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         // 저장, 휴지통 기능이 적용된 버튼을 포함한 상단바
-        topBar = { ScaffoldTopAppBar() },
+        topBar = { ScaffoldTopAppBar(onDeleteClicked = { onShowDeleteDialog() }) },
         // 이미지 불러오기
         floatingActionButton = {
             FloatingActionButton(

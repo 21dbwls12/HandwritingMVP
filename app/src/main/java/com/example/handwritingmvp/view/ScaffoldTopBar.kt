@@ -13,14 +13,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldTopAppBar() {
+fun ScaffoldTopAppBar(onDeleteClicked: () -> Unit) {
     TopAppBar(
         title = { Text("필기를 작성하세요") },
         actions = {
             // 저장 기능(캡처??)
             TopBarIconButtons(Icons.Rounded.Check) { }
             // 삭제 기능(필기, 필기와 이미지)
-            TopBarIconButtons(Icons.Rounded.Delete) { }
+            TopBarIconButtons(Icons.Rounded.Delete) { onDeleteClicked }
         }
     )
 }
