@@ -1,5 +1,8 @@
 package com.example.handwritingmvp.view
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -13,12 +16,12 @@ import androidx.compose.ui.Modifier
 @Composable
 fun MainScreenLayout(onDeleteClicked: () -> Unit, content: @Composable (PaddingValues) -> Unit) {
     // 사진선택도구 단일 사진
-//    val pickMedia =
-//        rememberLancherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-//            uri.let {
-//                uri = uri
-//            }
-//        }
+    val pickMedia =
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri.let {
+                uri
+            }
+        }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -29,6 +32,7 @@ fun MainScreenLayout(onDeleteClicked: () -> Unit, content: @Composable (PaddingV
             FloatingActionButton(
                 onClick = {
                     // 사진선택도구를 불러오는 기능
+                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 }
             ) {
                 Icon(imageVector = Icons.Rounded.Edit, contentDescription = null)
