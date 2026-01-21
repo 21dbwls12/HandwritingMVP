@@ -16,6 +16,8 @@ class MainPresenter(private var view: MainContract.View, private val imageModel:
             // Model에서 이미지와 필기 데이터 모두 null로 변경
             // 사진 uri 제거 요청
             imageModel.deleteUri()
+            // 변경된 데이터를 적용해서 화면을 다시 그리도록 요청
+            view.showSelectedImage(imageModel.sendUri())
         } else {
             // Model에서 필기 데이터만 null로 변경
         }
