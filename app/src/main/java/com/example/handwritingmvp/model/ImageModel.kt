@@ -20,4 +20,9 @@ class ImageModel {
     fun deleteUri() {
         savedUri = null
     }
+
+    // 요청받은 데이터 전달
+    fun sendUri(): Uri? {
+        return savedUri
+    }
 }

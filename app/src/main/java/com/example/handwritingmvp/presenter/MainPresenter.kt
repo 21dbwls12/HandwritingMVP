@@ -14,6 +14,8 @@ class MainPresenter(private var view: MainContract.View, private val imageModel:
     override fun onConfirmDelete(withImage: Boolean) {
         if (withImage) {
             // Model에서 이미지와 필기 데이터 모두 null로 변경
+            // 사진 uri 제거 요청
+            imageModel.deleteUri()
         } else {
             // Model에서 필기 데이터만 null로 변경
         }
@@ -32,15 +34,17 @@ class MainPresenter(private var view: MainContract.View, private val imageModel:
     }
 
     // 선택한 사진 uri Model에 저장 요청 및 화면에 표시 요청
-    override fun onImagePicked(uri: Uri?) {
+    override fun onImagePicked(selectedUri: Uri?) {
         // uri가 빈값이라면
-        if (uri == null) {
+        if (selectedUri == null) {
             // 기존 사진 uri 제거 요청
             imageModel.deleteUri()
         } else {
             // 현재 저장된 uri값 대신 넘어온 uri값을 저장 요청
-            imageModel.updateUri(uri)
+            imageModel.updateUri(selectedUri)
         }
         // 화면에 표시 요청
+        // uri 데이터는 Model에 전달 요청
+        view.showSelectedImage(imageModel.sendUri())
     }
 }

@@ -7,6 +7,7 @@ interface MainContract {
         fun showDeleteDialog()
         fun hideDeleteDialog()
         fun openImagePicker()
+        fun showSelectedImage(savedUri: Uri?)
     }
 
     interface Presenter {
@@ -14,6 +15,6 @@ interface MainContract {
         fun onConfirmDelete(withImage: Boolean)
         fun closeDeleteDialog()
         fun onPickedImageClicked()
-        fun onImagePicked(uri: Uri?)
+        fun onImagePicked(selectedUri: Uri?)
     }
 }
