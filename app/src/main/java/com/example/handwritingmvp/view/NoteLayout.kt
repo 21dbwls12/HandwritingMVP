@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil3.compose.AsyncImage
 
+// 사진 표시용(coli)
 @Composable
 fun NoteLayout(savedUri: Uri?) {
     AsyncImage(

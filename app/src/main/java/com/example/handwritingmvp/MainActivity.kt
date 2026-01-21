@@ -50,10 +50,13 @@ class MainActivity : ComponentActivity(), MainContract.View {
         enableEdgeToEdge()
         setContent {
             HandwritingMVPTheme {
-                
                 MainScreenLayout(
+                    // presenter에 삭제 버튼 클릭 상태 전달
                     onDeleteClicked = { presenter.onDeleteClicked() },
-                    onPickedImageClicked = { presenter.onPickedImageClicked() }) {
+                    // presenter에 사진 선택 도구 실행 버튼 클릭 상태 전달
+                    onPickedImageClicked = { presenter.onPickedImageClicked() }
+                ) {
+                    // 사진 표시용(coli)
                     NoteLayout(displayedUri)
 
                     if (showDeleteDialog) {
