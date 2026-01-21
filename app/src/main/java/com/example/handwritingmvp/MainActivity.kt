@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.handwritingmvp.model.ImageModel
 import com.example.handwritingmvp.presenter.MainPresenter
 import com.example.handwritingmvp.ui.theme.HandwritingMVPTheme
 import com.example.handwritingmvp.view.DeleteImageAndDrawingDialog
@@ -28,8 +29,11 @@ class MainActivity : ComponentActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // 사진 데이터(Model)
+        val imageModel = ImageModel()
+
         // 현재 Presenter를 Presenter 함수를 구현한 클래스로 초기화
-        presenter = MainPresenter(this)
+        presenter = MainPresenter(this, imageModel)
 
         // 사진선택도구 단일 사진
         pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
