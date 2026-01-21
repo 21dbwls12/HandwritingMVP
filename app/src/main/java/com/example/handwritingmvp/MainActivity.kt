@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +19,9 @@ class MainActivity : ComponentActivity(), MainContract.View {
     // View에서 하나의 MainPresenter를 사용해 기능 구현
     private lateinit var presenter: MainContract.Presenter
 
+    // 사진 선택 도구 선언 변수
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+
     // 삭제 대화상자가 화면에 표시되어 있는지에 대한 변수
     private var showDeleteDialog by mutableStateOf(false)
 
@@ -25,10 +31,19 @@ class MainActivity : ComponentActivity(), MainContract.View {
         // 현재 Presenter를 Presenter 함수를 구현한 클래스로 초기화
         presenter = MainPresenter(this)
 
+        // 사진선택도구 단일 사진
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                uri.let {
+                    presenter.onImagePicked(uri)
+                }
+            }
+
         enableEdgeToEdge()
         setContent {
             HandwritingMVPTheme {
-                MainScreenLayout(onDeleteClicked = { presenter.onDeleteClicked() }) {
+                MainScreenLayout(
+                    onDeleteClicked = { presenter.onDeleteClicked() },
+                    onPickedImageClicked = { presenter.onPickedImageClicked() }) {
                     if (showDeleteDialog) {
                         DeleteImageAndDrawingDialog(
                             // 이미지와 필기 모두 삭제
@@ -52,5 +67,10 @@ class MainActivity : ComponentActivity(), MainContract.View {
     // 삭제 여부를 확인하는 대화상자 닫기
     override fun hideDeleteDialog() {
         showDeleteDialog = false
+    }
+
+    // 사진 선택 도구 실행
+    override fun openImagePicker() {
+        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 }
