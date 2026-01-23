@@ -11,9 +11,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawStyle
 import com.example.handwritingmvp.model.ImageModel
 import com.example.handwritingmvp.presenter.MainPresenter
 import com.example.handwritingmvp.ui.theme.HandwritingMVPTheme
+import com.example.handwritingmvp.view.CanvasLayout
 import com.example.handwritingmvp.view.DeleteImageAndDrawingDialog
 import com.example.handwritingmvp.view.MainScreenLayout
 import com.example.handwritingmvp.view.NoteLayout
@@ -58,6 +61,15 @@ class MainActivity : ComponentActivity(), MainContract.View {
                 ) {
                     // 사진 표시용(coli)
                     NoteLayout(displayedUri)
+                    // 필기용
+                    CanvasLayout(
+                        // 화면을 터치한 순간 실행할 동작 presenter에게 요청
+                        onDragStart = {},
+                        // 드래그하는 동안 실행될 동작 presenter에게 요청
+                        onDrag = {},
+                        // 화면에서 손을 떼면 실행할 동작 presenter에게 요청
+                        onDragEnd = {}
+                    )
 
                     if (showDeleteDialog) {
                         DeleteImageAndDrawingDialog(
@@ -92,5 +104,15 @@ class MainActivity : ComponentActivity(), MainContract.View {
     // 사진 화면에 표시
     override fun showSelectedImage(savedUri: Uri?) {
         displayedUri = savedUri
+    }
+
+    // 작성이 끝난 필기를 화면에 표시
+    override fun showDrawing(savedPaths: ArrayDeque<Pair<Path, DrawStyle>>) {
+        val paths = savedPaths.toList().reversed()
+
+        // 반복문 통해서 가장 먼저 그린 선부터 순차적으로 작성한 필기를 화면에 표시
+        paths.forEach {
+            it
+        }
     }
 }

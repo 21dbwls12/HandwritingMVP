@@ -1,6 +1,7 @@
 package com.example.handwritingmvp.presenter
 
 import android.net.Uri
+import androidx.compose.ui.geometry.Offset
 import com.example.handwritingmvp.MainContract
 import com.example.handwritingmvp.model.ImageModel
 
@@ -48,5 +49,14 @@ class MainPresenter(private var view: MainContract.View, private val imageModel:
         // 화면에 표시 요청
         // uri 데이터는 Model에 전달 요청
         view.showSelectedImage(imageModel.sendUri())
+    }
+
+    override fun onDragStart(offset: Offset) {
+        TODO("Not yet implemented")
+    }
+
+    // Model에 필기 저장 요청
+    override fun saveDrawing() {
+        TODO("Not yet implemented")
     }
 }

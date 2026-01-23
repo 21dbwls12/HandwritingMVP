@@ -1,6 +1,9 @@
 package com.example.handwritingmvp
 
 import android.net.Uri
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawStyle
 
 interface MainContract {
     interface View {
@@ -8,6 +11,7 @@ interface MainContract {
         fun hideDeleteDialog()
         fun openImagePicker()
         fun showSelectedImage(savedUri: Uri?)
+        fun showDrawing(savedPaths: ArrayDeque<Pair<Path, DrawStyle>>)
     }
 
     interface Presenter {
@@ -16,5 +20,7 @@ interface MainContract {
         fun closeDeleteDialog()
         fun onPickedImageClicked()
         fun onImagePicked(selectedUri: Uri?)
+        fun onDragStart(offset: Offset)
+        fun saveDrawing()
     }
 }
