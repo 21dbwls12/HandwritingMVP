@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
+import com.example.handwritingmvp.model.DrawingModel
 import com.example.handwritingmvp.model.ImageModel
 import com.example.handwritingmvp.presenter.MainPresenter
 import com.example.handwritingmvp.ui.theme.HandwritingMVPTheme
@@ -33,15 +34,19 @@ class MainActivity : ComponentActivity(), MainContract.View {
 
     // 표시되고 있는 사진
     private var displayedUri by mutableStateOf<Uri?>(null)
+
+    private var allPath by mutableStateOf(emptyList<Pair<Path, DrawStyle>>())
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 사진 데이터(Model)
         val imageModel = ImageModel()
+        // 필기 데이터(Model)
+        val drawingModel = DrawingModel()
 
         // 현재 Presenter를 Presenter 함수를 구현한 클래스로 초기화
-        presenter = MainPresenter(this, imageModel)
+        presenter = MainPresenter(this, imageModel, drawingModel)
 
         // 사진선택도구 단일 사진
         pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -68,7 +73,9 @@ class MainActivity : ComponentActivity(), MainContract.View {
                         // 드래그하는 동안 실행될 동작 presenter에게 요청
                         onDrag = {},
                         // 화면에서 손을 떼면 실행할 동작 presenter에게 요청
-                        onDragEnd = {}
+                        onDragEnd = {},
+                        // 화면에 보여줄 전체 필기
+                        allPath = allPath
                     )
 
                     if (showDeleteDialog) {
@@ -108,11 +115,6 @@ class MainActivity : ComponentActivity(), MainContract.View {
 
     // 작성이 끝난 필기를 화면에 표시
     override fun showDrawing(savedPaths: ArrayDeque<Pair<Path, DrawStyle>>) {
-        val paths = savedPaths.toList().reversed()
-
-        // 반복문 통해서 가장 먼저 그린 선부터 순차적으로 작성한 필기를 화면에 표시
-        paths.forEach {
-            it
-        }
+        allPath = savedPaths.toList().reversed()
     }
 }

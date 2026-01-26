@@ -3,9 +3,14 @@ package com.example.handwritingmvp.presenter
 import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import com.example.handwritingmvp.MainContract
+import com.example.handwritingmvp.model.DrawingModel
 import com.example.handwritingmvp.model.ImageModel
 
-class MainPresenter(private var view: MainContract.View, private val imageModel: ImageModel) : MainContract.Presenter {
+class MainPresenter(
+    private var view: MainContract.View,
+    private val imageModel: ImageModel,
+    private val drawingModel: DrawingModel
+) : MainContract.Presenter {
     // 대화상자 표시 요청
     override fun onDeleteClicked() {
         view.showDeleteDialog()
@@ -57,6 +62,6 @@ class MainPresenter(private var view: MainContract.View, private val imageModel:
 
     // Model에 필기 저장 요청
     override fun saveDrawing() {
-        TODO("Not yet implemented")
+        view.showDrawing(drawingModel.sendPath())
     }
 }
