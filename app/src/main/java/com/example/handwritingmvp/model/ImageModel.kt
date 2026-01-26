@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 
 class ImageModel {
     // 저장된 사진 Uri
-    var savedUri by mutableStateOf< Uri?>(null)
+    var savedUri by mutableStateOf<Uri?>(null)
         // uri값이 외부에서 수정하지 못하도록 setter로 설정
         private set
 
