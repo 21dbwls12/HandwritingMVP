@@ -2,6 +2,8 @@ package com.example.handwritingmvp.presenter
 
 import android.net.Uri
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawStyle
 import com.example.handwritingmvp.MainContract
 import com.example.handwritingmvp.model.DrawingModel
 import com.example.handwritingmvp.model.ImageModel
@@ -60,8 +62,12 @@ class MainPresenter(
         TODO("Not yet implemented")
     }
 
-    // Model에 필기 저장 요청
-    override fun saveDrawing() {
+    // Model에 필기 저장 요청 및 화면 표시 요청
+    override fun saveDrawing(newPath: Pair<Path, DrawStyle>) {
+        // Model에 필기 데이터 저장 요청
+        drawingModel.updatePath(newPath)
+
+        // 전체 필기 화면에 표시 요청
         view.showDrawing(drawingModel.sendPath())
     }
 }

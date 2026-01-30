@@ -21,6 +21,7 @@ import com.example.handwritingmvp.view.CanvasLayout
 import com.example.handwritingmvp.view.DeleteImageAndDrawingDialog
 import com.example.handwritingmvp.view.MainScreenLayout
 import com.example.handwritingmvp.view.NoteLayout
+import java.util.ArrayDeque
 
 class MainActivity : ComponentActivity(), MainContract.View {
     // View에서 하나의 MainPresenter를 사용해 기능 구현
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
                         // 드래그하는 동안 실행될 동작 presenter에게 요청
                         onDrag = {},
                         // 화면에서 손을 떼면 실행할 동작 presenter에게 요청
-                        onDragEnd = {},
+                        saveDrawing = {},
                         // 화면에 보여줄 전체 필기
                         allPath = allPath
                     )

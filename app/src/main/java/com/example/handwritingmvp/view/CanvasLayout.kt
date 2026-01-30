@@ -12,7 +12,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 
 // 필기용
 @Composable
-fun CanvasLayout(onDragStart: () -> Unit, onDrag: () -> Unit, onDragEnd: () -> Unit, allPath: List<Pair<Path, DrawStyle>>) {
+fun CanvasLayout(onDragStart: () -> Unit, onDrag: () -> Unit, saveDrawing: () -> Unit, allPath: List<Pair<Path, DrawStyle>>) {
     Canvas(
         modifier = Modifier
             .fillMaxSize()
@@ -23,7 +23,7 @@ fun CanvasLayout(onDragStart: () -> Unit, onDrag: () -> Unit, onDragEnd: () -> U
                     // 드래그 하는 동안 실행
                     onDrag = { _, dragAmount -> onDrag() },
                     // 화면에서 손을 떼면 실행
-                    onDragEnd = { onDragEnd() },
+                    onDragEnd = { saveDrawing() },
                 )
             }
     ) {

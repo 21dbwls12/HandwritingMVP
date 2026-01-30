@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
+import java.util.ArrayDeque
 
 interface MainContract {
     interface View {
@@ -21,6 +22,6 @@ interface MainContract {
         fun onPickedImageClicked()
         fun onImagePicked(selectedUri: Uri?)
         fun onDragStart(offset: Offset)
-        fun saveDrawing()
+        fun saveDrawing(newPath: Pair<Path, DrawStyle>)
     }
 }
