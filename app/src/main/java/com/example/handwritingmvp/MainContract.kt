@@ -1,7 +1,6 @@
 package com.example.handwritingmvp
 
 import android.net.Uri
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import java.util.ArrayDeque

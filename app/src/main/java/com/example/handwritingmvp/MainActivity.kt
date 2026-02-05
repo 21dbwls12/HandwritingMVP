@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
 
     // 표시되고 있는 사진
     private var displayedUri by mutableStateOf<Uri?>(null)
-
+    // 표시되고 있는 필기
     private var allPath by mutableStateOf(emptyList<Pair<Path, DrawStyle>>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
         // 새로 그려지는 path 표시하기 위한 points State
         val points = mutableListOf<Offset>()
         // 새로 그려지고 있는 중인 획 State
-        var pathInProgress = MutableLiveData(Path())
+        val pathInProgress = MutableLiveData(Path())
 
 
         enableEdgeToEdge()

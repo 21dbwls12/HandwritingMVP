@@ -1,7 +1,6 @@
 package com.example.handwritingmvp.presenter
 
 import android.net.Uri
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import com.example.handwritingmvp.MainContract
@@ -24,10 +23,16 @@ class MainPresenter(
             // Model에서 이미지와 필기 데이터 모두 null로 변경
             // 사진 uri 제거 요청
             imageModel.deleteUri()
+            // 필기 데이터 제거 요청
+            drawingModel.deletePath()
             // 변경된 데이터를 적용해서 화면을 다시 그리도록 요청
             view.showSelectedImage(imageModel.sendUri())
+            view.showDrawing(drawingModel.savedPath)
         } else {
-            // Model에서 필기 데이터만 null로 변경
+            // Model에서 필기 데이터만 제거
+            drawingModel.deletePath()
+            // 변경된 데이터를 적용해서 화면을 다시 그리도록 요청
+            view.showDrawing(drawingModel.savedPath)
         }
         // 모든 작업이 끝나면 대화상자 닫기
         view.hideDeleteDialog()

@@ -20,6 +20,11 @@ class DrawingModel {
         savedPath.push(newPath)
     }
 
+    // 사용자 필기 삭제
+    fun deletePath() {
+        savedPath.clear()
+    }
+
     // 요청받은 데이터 전달
     fun sendPath(): ArrayDeque<Pair<Path, DrawStyle>> {
         return savedPath
