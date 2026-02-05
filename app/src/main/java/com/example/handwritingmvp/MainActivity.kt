@@ -11,8 +11,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.lifecycle.MutableLiveData
 import com.example.handwritingmvp.model.DrawingModel
 import com.example.handwritingmvp.model.ImageModel
 import com.example.handwritingmvp.presenter.MainPresenter
@@ -37,7 +40,7 @@ class MainActivity : ComponentActivity(), MainContract.View {
     private var displayedUri by mutableStateOf<Uri?>(null)
 
     private var allPath by mutableStateOf(emptyList<Pair<Path, DrawStyle>>())
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,10 +54,18 @@ class MainActivity : ComponentActivity(), MainContract.View {
 
         // 사진선택도구 단일 사진
         pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                uri.let {
-                    presenter.onImagePicked(uri)
-                }
+            uri.let {
+                presenter.onImagePicked(uri)
             }
+        }
+
+        // point 위치 추적을 위한 State
+        var point by mutableStateOf(Offset.Zero)
+        // 새로 그려지는 path 표시하기 위한 points State
+        val points = mutableListOf<Offset>()
+        // 새로 그려지고 있는 중인 획 State
+        var pathInProgress = MutableLiveData(Path())
+
 
         enableEdgeToEdge()
         setContent {
@@ -70,11 +81,33 @@ class MainActivity : ComponentActivity(), MainContract.View {
                     // 필기용
                     CanvasLayout(
                         // 화면을 터치한 순간 실행할 동작 presenter에게 요청
-                        onDragStart = {},
+                        onDragStart = { offset ->
+                            point = offset
+                            points.add(point)
+                        },
                         // 드래그하는 동안 실행될 동작 presenter에게 요청
-                        onDrag = {},
+                        onDrag = { dragAmount ->
+                            point += dragAmount
+                            points.add(point)
+                            // onDrag가 호출될 때마다 바로 그려지는 획 표시
+                            pathInProgress.value = Path()
+                            points.forEachIndexed { index, point ->
+                                // 만약 드래그를 처음 시작한다면(처음 클릭한다면)
+                                if (index == 0) {
+                                    // 획의 시작 지점을 해당 좌표로 옮기기
+                                    pathInProgress.value!!.moveTo(point.x, point.y)
+                                } else {
+                                    // 만약 드래그가 이미 진행되고 있었다면 직선 추가
+                                    pathInProgress.value!!.lineTo(point.x, point.y)
+                                }
+                            }
+                        },
                         // 화면에서 손을 떼면 실행할 동작 presenter에게 요청
-                        saveDrawing = {},
+                        onDragEnd = {
+                            saveDrawing(Pair(pathInProgress.value!!, Stroke(1f)))
+                            points.clear()
+                            pathInProgress.value = Path()
+                        },
                         // 화면에 보여줄 전체 필기
                         allPath = allPath
                     )
@@ -112,6 +145,11 @@ class MainActivity : ComponentActivity(), MainContract.View {
     // 사진 화면에 표시
     override fun showSelectedImage(savedUri: Uri?) {
         displayedUri = savedUri
+    }
+
+    // 작성이 끝난 필기를 Model에 저장
+    override fun saveDrawing(newPath: Pair<Path, DrawStyle>) {
+        presenter.saveDrawing(newPath)
     }
 
     // 작성이 끝난 필기를 화면에 표시

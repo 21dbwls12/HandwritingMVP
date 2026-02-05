@@ -12,6 +12,7 @@ interface MainContract {
         fun hideDeleteDialog()
         fun openImagePicker()
         fun showSelectedImage(savedUri: Uri?)
+        fun saveDrawing(newPath: Pair<Path, DrawStyle>)
         fun showDrawing(savedPaths: ArrayDeque<Pair<Path, DrawStyle>>)
     }
 
@@ -21,7 +22,6 @@ interface MainContract {
         fun closeDeleteDialog()
         fun onPickedImageClicked()
         fun onImagePicked(selectedUri: Uri?)
-        fun onDragStart(offset: Offset)
         fun saveDrawing(newPath: Pair<Path, DrawStyle>)
     }
 }

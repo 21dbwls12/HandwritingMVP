@@ -58,10 +58,6 @@ class MainPresenter(
         view.showSelectedImage(imageModel.sendUri())
     }
 
-    override fun onDragStart(offset: Offset) {
-        TODO("Not yet implemented")
-    }
-
     // Model에 필기 저장 요청 및 화면 표시 요청
     override fun saveDrawing(newPath: Pair<Path, DrawStyle>) {
         // Model에 필기 데이터 저장 요청
