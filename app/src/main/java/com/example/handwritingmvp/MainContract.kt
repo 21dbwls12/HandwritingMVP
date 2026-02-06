@@ -11,7 +11,6 @@ interface MainContract {
         fun hideDeleteDialog()
         fun openImagePicker()
         fun showSelectedImage(savedUri: Uri?)
-        fun saveDrawing(newPath: Pair<Path, DrawStyle>)
         fun showDrawing(savedPaths: ArrayDeque<Pair<Path, DrawStyle>>)
     }
 
